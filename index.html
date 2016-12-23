@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>小丸子的todo-list</title>
+	<link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
+	<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<div class="container"><!-- 清单列表开始 -->
+    <h1>小丸子的todo</h1>
+    <div class="add-task">
+    	<input type="text" placeholder="e.g.下午记得买菜">
+    	<button type="submit">submit</button>
+    </div>
+	<div class="task-list"><!-- 任务开始 -->
+		<div class="task-item">
+		    <span>
+		    	<input type="checkbox">
+		    </span>
+			<span class="task-content">item content</span>
+            <span>delete</span>
+            <span>detail</span>
+		</div><!-- 任务结束 -->
+		<div class="task-item">
+		    <span>
+		    	<input type="checkbox">
+		    </span>
+			<span class="task-content">item content</span>
+            <span>delete</span>
+            <span>detail</span>
+		</div><!-- 任务结束 -->
+		<div class="task-item">
+		    <span>
+		    	<input type="checkbox">
+		    </span>
+			<span class="task-content">item content</span>
+            <span>delete</span>
+            <span>detail</span>
+		</div><!-- 任务结束 -->
+		<div class="task-item">
+		    <span>
+		    	<input type="checkbox">
+		    </span>
+			<span class="task-content">item content</span>
+            <span>delete</span>
+            <span>detail</span>
+		</div><!-- 任务结束 -->
+		<div class="task-item">
+		    <span>
+		    	<input type="checkbox">
+		    </span>
+			<span class="task-content">item content</span>
+            <span>delete</span>
+            <span>detail</span>
+		</div><!-- 任务结束 -->
+	</div>
+	<div class="task-detail-mask">
+	</div>
+	<div class="task-detail"><!-- 任务详情开始 -->
+		<div class="content">
+			下午记得买菜
+		</div><!-- 任务标题 -->
+		<div><!-- 任务描述 -->
+			<div class="desc">
+			    <textarea name="" id=""></textarea>
+			</div>
+		</div><!-- 任务详情结束 -->
+		<div class="remind"><!-- 定时提醒 -->
+			<input type="date">
+			<button type="submit">submit</button>
+		</div>
+	</div>
+</div><!-- 清单列表结束 -->
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="js/base.js"></script>
+</body>
+</html>
