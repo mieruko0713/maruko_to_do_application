@@ -4,12 +4,24 @@
     //alert(1);
     var $form_add_task = $(".add-task")
        ,$delete_task
+       ,$detail_task
        ,new_task = {}
-       ,task_list = {};
-
+       ,task_list = []
+       ,$task_detail = $(".task-detail")
+       ,$task_detail_mask = $(".task-detail-mask")
+       ,$update_form
+       ;
+    
+    console.log($update_form);
+    
+    // 初始化状态
     init();
 
+    // 为添加一条新todo的按钮绑定一个task
     $form_add_task.on("submit",on_add_task_form_submit);
+    // 为遮罩层添加一个点击后隐藏的事件
+    $task_detail_mask.on("click", hide_task_detail);
+    
     
     // 提交时添加
     function on_add_task_form_submit(e) {
@@ -63,15 +75,94 @@
     	$task_list.html("");
     	for(var i = 0; i < task_list.length; i++) {
     		var $task = render_task_tpl(task_list[i], i);
-        $task_list.append($task);
+        $task_list.prepend($task);
     	}
       $delete_task = $(".action.delete");
+      $detail_task = $(".action.detail");
+      listen_task_delete();
+      listen_task_detail();
+    }
+
+    // 监听打开task详情的页面
+    function listen_task_detail() {
+        $detail_task.on("click", function(){
+          var $this = $(this);
+          var $item = $this.parent().parent();
+          var index = $item.data("index");
+          show_task_detail(index);
+          $update_form = $task_detail.find("form");
+        });
+    }
+
+
+    // 监听删除task的事件
+    function listen_task_delete() {
       $delete_task.on("click", function(){
         var $this = $(this);
         var $item = $this.parent().parent();
         var tmp = confirm("确定删除?"); 
         tmp ? delete_task($item.data("index")) : null;
       });
+    }
+
+    // 查看Task详情
+    function show_task_detail(index) {
+      // 生成详情模版
+      render_task_detail(index);
+      // 显示详情模版(默认隐藏)
+      $task_detail.show();
+      // 显示详情模版mask(默认隐藏)
+      $task_detail_mask.show();
+    }
+
+    
+    // 更新task
+    function update_task(index, data) {
+      if(!index || !task_list[index]) return;
+      task_list[index] = $.extend({}, task_list[index], data);
+      refresh_task_list();
+      hide_task_detail();
+    }
+    
+    // 渲染指定task的详细信息
+    function render_task_detail(index) {
+      var item = task_list[index];
+      var tpl = '<form>' + 
+      '<input name="content" value="' +
+      item.content +
+      '"><!-- 任务标题 -->' + 
+      '<div><!-- 任务描述 -->' + 
+      '<div class="desc">' + 
+      '<textarea name="desc">' + (item.desc || "") + '</textarea>' +
+      '</div>' + 
+      '</div><!-- 任务详情结束 -->' + 
+      '<div class="remind"><!-- 定时提醒 -->' + 
+      '<input type="date" name="remind_date" value="' + item.remind_date + 
+      '"><button type="submit">更新</button>' + 
+      '</div>' + 
+      '</form>';
+
+      // 用新模版替换旧模版
+      $task_detail.html(null);
+      $task_detail.html(tpl);
+      $update_form = $task_detail.find("form");
+      $update_form.on("submit", function(e) {
+        e.preventDefault();
+        var d = {};
+        // 获取新的数据
+        d.content = $(this).find("[name=content]").val();
+        d.desc = $(this).find("[name=desc]").val();
+        d.remind_date = $(this).find("[name=remind_date]").val();
+        // 把新的数据用于更新
+        update_task(index, d);
+      });
+    }
+
+
+    // 隐藏task
+    function hide_task_detail() {
+      $task_detail.hide();
+      $task_detail_mask.hide();
     }
     
     // 生成模版
@@ -83,7 +174,7 @@
       '<span class="task-content">' + data.content + '</span>' + 
       '<span class="fr">' + 
           '<span class="action delete">删除</span> ' + 
-          '<span class="action">详细</span>' + 
+          '<span class="action detail">详细</span>' + 
       '</span>' +
       '</div>';
 
