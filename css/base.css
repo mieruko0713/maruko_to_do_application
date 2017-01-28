@@ -28,9 +28,7 @@ button,
 }
 
 textarea {
-	border: 0;
 	min-height: 100px;
-	border-radius: 3px;
 }
 
 input[type=date] {
@@ -91,7 +89,7 @@ button {
 	background: #ddd;
 }
 
-.task-detail-mask, .task-detail{
+.task-detail-mask, .task-detail {
 	position: absolute;
 	display:none;
 }
@@ -101,16 +99,9 @@ button {
 	background: #fff;
 	bottom: 0;
 	right: 0;
-	padding: 10px;
 	width: 50%;
 	color: #333;
 	display:none;
-}
-
-.task-detail .content {
-	padding: 10px;
-	font-weight: 900;
-	cursor: pointer;
 }
 
 .task-detail > * {
