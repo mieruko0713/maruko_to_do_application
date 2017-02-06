@@ -85,6 +85,7 @@
     }
 
     function hide_msg() {
+      $alerter.get(0)
       $(".msg").hide();
     }
 
