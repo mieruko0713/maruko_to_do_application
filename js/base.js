@@ -85,7 +85,8 @@
     }
 
     function hide_msg() {
-      $alerter.get(0)
+      $alerter.get(0).currentTime = 0;
+      $alerter.get(0).pause();
       $(".msg").hide();
     }
 
