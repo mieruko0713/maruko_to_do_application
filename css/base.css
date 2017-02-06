@@ -15,7 +15,7 @@ h1 {
 }
 
 .task-list {
-	margin: 5px 0;
+	margin: 20px 0;
 }
 
 input, 
@@ -43,6 +43,13 @@ input[type=text],input[type=date] {
     background: #eee;
     box-shadow: inset 0 1px 2px rgba(0,0,0,.3);
     border-radius:3px;
+}
+
+input.big {
+	height: 40px;
+}
+input.datetime {
+	width:60%;
 }
 
 input[type=text]:hover,
@@ -97,7 +104,7 @@ button {
 .task-detail {
 	position: absolute;
 	background: #fff;
-	bottom: 0;
+	top: 0;
 	right: 0;
 	width: 50%;
 	color: #333;
@@ -117,6 +124,20 @@ button {
 	position:fixed;
 }
 
+.task-item.complete {
+	color: #aaa;
+}
+
+.task-item.complete:after {
+	content: "";
+	height:1px;
+	background:#aaa;
+	width:100%;
+	position:relative;
+	top:-8px;
+	display:block;
+}
+
 .action {
 	color:#888;
 	font-size:90%;
@@ -124,6 +145,23 @@ button {
 
 .action:hover {
 	color:#333;
+}
+
+.msg {
+    display:none;
+    text-align:center;
+    background:#ffe264;
+    padding:5px;
+}
+
+.msg .msg-content {
+	font-size:26px;
+	margin-bottom:5px;
+}
+
+.msg button {
+	padding:5px;
+	font-size:14px;
 }
 
 .task-content {
@@ -142,5 +180,10 @@ input[name=remind_date] {
 	margin:10px 0;
 }
 
+
+.alerter {
+	width:0;
+	height:0;
+}
    
 

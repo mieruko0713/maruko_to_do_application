@@ -5,18 +5,23 @@
 	<title>小丸子的todo-list</title>
 	<link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
 	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css"/ >
 </head>
 <body>
+<div class="msg">
+  <div class="msg-content"></div>
+  <button type="button">知道了</button>
+</div>
 <div class="container"><!-- 清单列表开始 -->
     <h1>小丸子的todo</h1>
     <form class="add-task">
-    	<input type="text" placeholder="e.g.下午记得买菜" name="content">
+    	<input class="big" type="text" placeholder="e.g.下午记得买菜" name="content">
     	<button type="submit">submit</button>
     </form>
 	<div class="task-list"><!-- 任务开始 -->
 		<div class="task-item">
 		    <span>
-		    	<input type="checkbox">
+		    	<input class="complete" type="checkbox">
 		    </span>
 			<span class="task-content">item content</span>
             <span>delete</span>
@@ -42,8 +47,19 @@
 		</div>
 	</div>
 </div><!-- 清单列表结束 -->
+<video class="alerter" src="alert.mp3"></video>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+<script src="node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.js"></script>
 <script src="node_modules/store.js/store.js"></script>
+<script>
+	$(function() {
+		var userAgent = navigator.userAgent;
+		if(userAgent.indexOf("Safari")!=-1){
+			$(".container").height($(window).height());
+		}
+	});
+</script>
 <script src="js/base.js"></script>
 </body>
 </html>
