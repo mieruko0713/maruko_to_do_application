@@ -75,6 +75,15 @@ button {
     box-sizing: border-box;
 }
 
+button.primary,
+[type=submit] {
+	background: #46b1e4;
+}
+
+button.primary {
+	margin-right: 30px;
+}
+
 .add-task [type=submit] {
 	width: 15%;
 }
@@ -180,10 +189,26 @@ input[name=remind_date] {
 	margin:10px 0;
 }
 
-
 .alerter {
 	width:0;
 	height:0;
 }
+
+.pop {
+	position:relative;
+}
+
+.pop-content {
+	position:absolute;
+	bottom:0;
+	padding-bottom:20px;
+	width:100%;
+}
+
+.pop-title {
+	padding:20px;
+}
+
+
    
 

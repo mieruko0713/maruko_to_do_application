@@ -23,6 +23,12 @@
     
     // 初始化状态
     init();
+    // pop("确定要删除吗")
+    //   .then(function(r) {
+    //     if(r) {
+    //       delete();
+    //     } 
+    //   });
 
     // 为添加一条新todo的按钮绑定一个task
     $form_add_task.on("submit",on_add_task_form_submit);
@@ -34,15 +40,48 @@
       if(!arg) {
         console.error("pop title is required");
       }
-      var conf = {}, $box, $mask;
 
-      $box = $("<div></div>")
+      var conf = {}, $box, $mask, $confirm, $cancel, $title, $content, dfd, confirmed;
+
+      if(typeof arg == "string") {
+        conf.title = arg;
+      } else{
+        conf = $.extend(conf, arg);
+      }
+
+
+      dfd = $.Deferred();
+
+      $box = $('<div class="pop">' +
+        '<div class="pop-title">' + conf.title + '</div>' +
+        '<div class="pop-content">' +
+        '<div><button class="primary confirm">确定</button>'+
+        '<button class="cancel">取消</button></div>' +
+        '</div>' +
+        '</div>')
         .css({
           width: 300,
-          height: 200,
+          height: 120,
           background: "#fff",
           position: "fixed",
+          "border-radius": 3,
+          "box-shadow": "0 1px 2px",
+          color: "#444"
       });
+
+      $title = $box.find(".pop-title").css({
+        "font-weight": 900,
+        "font-size": 20,
+        "text-align": "center"
+      });
+
+      $content = $box.find(".pop-content")
+        .css({
+          "text-align": "center"
+      });
+
+      $confirm  = $content.find("button.confirm");
+      $cancel = $content.find("button.cancel");
 
       $mask = $("<div></div>")
         .css({
@@ -53,6 +92,33 @@
           left:0,
           background: "rgba(0, 0, 0, 0.5)"
       });
+
+      var timer = setInterval(function(){
+        if(confirmed !== undefined) {
+          dfd.resolve(confirmed);
+          clearInterval(timer);
+          dismiss_pop();
+        }
+      }, 50);
+
+      $confirm.on("click", on_confirmed);
+
+      function on_cancel() {
+        confirmed = false;
+      }
+
+      function on_confirmed() {
+        confirmed = true;
+      }
+
+      $cancel.on("click", on_cancel);
+
+      $mask.on("click", on_cancel);
+
+      function dismiss_pop() {
+        $mask.remove();
+        $box.remove();
+      }
 
       function adjust_box_position() {
         var window_width = $window.width()
@@ -73,16 +139,11 @@
       }
 
       $window.on("resize", adjust_box_position);
-
-      if(typeof arg == "string") {
-        conf.title = arg;
-      } else{
-        conf = $.extend(conf, arg);
-      }
        
       $mask.appendTo($body);
       $box.appendTo($body);
       $window.resize();
+      return dfd.promise();
     }
 
     function listen_msg_event() {
@@ -108,7 +169,6 @@
 
     // 初始化
     function init() {
-      pop("test");
       listen_msg_event();
       task_list = store.get("task_list") || [];
       if(task_list.length){
@@ -227,8 +287,11 @@
       $delete_task.on("click", function(){
         var $this = $(this);
         var $item = $this.parent().parent();
-        var tmp = confirm("确定删除?"); 
-        tmp ? delete_task($item.data("index")) : null;
+        pop("确定删除?")
+          .then(function(r) {
+            r ? delete_task($item.data("index")) : null;
+          });
+        // tmp ? delete_task($item.data("index")) : null;
       });
     }
 
