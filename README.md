@@ -20,7 +20,7 @@
   
 ## 使用情况
 一开始打开的时候，从indexdb里面取出数据，在我的chrome里打开大概是这样:    
-![概览](http://7xl4oh.com1.z0.glb.clouddn.com/%E6%A6%82%E8%A7%88.png)    
+![概览](http://7xl4oh.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-02-07%20%E4%B8%8B%E5%8D%883.13.43.png)    
     
 点击详情，可以看到具体的内容，并且可以修改，日期这一栏使用了jQuery的datetimepicker插件，可以选择比较精确的时间：    
 ![详情测试](http://7xl4oh.com1.z0.glb.clouddn.com/%E8%AF%A6%E6%83%85%E6%B5%8B%E8%AF%95.png)
