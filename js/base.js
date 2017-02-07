@@ -3,6 +3,8 @@
     
     //alert(1);
     var $form_add_task = $(".add-task")
+       ,$window = $(window)
+       ,$body = $("body")
        ,$delete_task
        ,$detail_task
        ,new_task = {}
@@ -27,6 +29,62 @@
     // 为遮罩层添加一个点击后隐藏的事件
     $task_detail_mask.on("click", hide_task_detail);
     
+
+    function pop(arg) {
+      if(!arg) {
+        console.error("pop title is required");
+      }
+      var conf = {}, $box, $mask;
+
+      $box = $("<div></div>")
+        .css({
+          width: 300,
+          height: 200,
+          background: "#fff",
+          position: "fixed",
+      });
+
+      $mask = $("<div></div>")
+        .css({
+          position: "fixed",
+          top: 0,
+          bottom: 0,
+          right: 0,
+          left:0,
+          background: "rgba(0, 0, 0, 0.5)"
+      });
+
+      function adjust_box_position() {
+        var window_width = $window.width()
+          , window_height = $window.height()
+          , box_width = $box.width()
+          , box_height = $box.height()
+          , move_x
+          , move_y
+          ;
+
+        move_x = (window_width - box_width)/2;
+        move_y = (window_height - box_height)/2 - 20;
+
+        $box.css({
+          left: move_x,
+          top: move_y
+        });
+      }
+
+      $window.on("resize", adjust_box_position);
+
+      if(typeof arg == "string") {
+        conf.title = arg;
+      } else{
+        conf = $.extend(conf, arg);
+      }
+       
+      $mask.appendTo($body);
+      $box.appendTo($body);
+      $window.resize();
+    }
+
     function listen_msg_event() {
       $msg_confirm.on("click", function() {
         hide_msg();
@@ -50,6 +108,7 @@
 
     // 初始化
     function init() {
+      pop("test");
       listen_msg_event();
       task_list = store.get("task_list") || [];
       if(task_list.length){
