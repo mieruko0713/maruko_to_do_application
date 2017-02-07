@@ -154,17 +154,16 @@
     
     // 提交时添加
     function on_add_task_form_submit(e) {
+      var new_task = {};
       // 禁用默认行为
       e.preventDefault();
       // 获取新task的值
       new_task.content = $(this).find('input[name=content]').val();
       // 如果新task值为空 直接返回 否则继续执行
       if(!new_task.content) return;
-      if(add_task(new_task)) {
-        render_task_list();
-      }
+      add_task(new_task);
       // 存入新task
-      console.log("new_task",new_task);
+      $(this).find("input[name=content]").val("");
     }
 
     // 初始化
@@ -213,8 +212,8 @@
     // 添加任务
     function add_task(new_task) {
     	task_list.push(new_task);
+      refresh_task_list();
     	//  更新localStorage
-    	refresh_task_list();
     	return true;
     }
     
@@ -239,23 +238,15 @@
     function render_task_list() {
     	var $task_list = $(".task-list");
     	$task_list.html("");
-      var complete_items = [];
     	for(var i = 0; i < task_list.length; i++) {
+        var $task = render_task_tpl(task_list[i], i);
     		if(task_list[i]&&task_list[i].complete) {
-          complete_items[i] = task_list[i];
+          $task_list.append($task);
+          $task.addClass("complete")
         } else {
-          var $task = render_task_tpl(task_list[i], i);
           $task_list.prepend($task);
         }
     	}
-
-      for(var j=0; j<complete_items.length; j++) {
-        $task = render_task_tpl(complete_items[j], j);
-        if(!$task) continue;
-        $task.addClass("complete");
-        $task_list.append($task);
-      }
-
     
       $delete_task = $(".action.delete");
       $detail_task = $(".action.detail");
